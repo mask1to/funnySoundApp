@@ -4,6 +4,11 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/masko/AndroidStudioProjects/FunnySoundsApp/app/src/main/res/layout/activity_main.xml" value="0.1793478260869565" />
+        <entry key="..\:/Users/masko/AndroidStudioProjects/FunnySoundsRepo/FunnySoundsApp/app/src/main/res/layout/activity_main.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/masko/AndroidStudioProjects/FunnySoundsRepo/FunnySoundsApp/app/src/main/res/layout/login_fragment.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/masko/AndroidStudioProjects/FunnySoundsRepo/FunnySoundsApp/app/src/main/res/layout/main_fragment.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/masko/AndroidStudioProjects/FunnySoundsRepo/FunnySoundsApp/app/src/main/res/layout/main_screen.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/masko/AndroidStudioProjects/FunnySoundsRepo/FunnySoundsApp/app/src/main/res/layout/register_fragment.xml" value="0.16666666666666666" />
       </map>
     </option>
   </component>
