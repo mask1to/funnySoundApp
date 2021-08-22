@@ -4,11 +4,16 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/masko/AndroidStudioProjects/FunnySoundsApp/app/src/main/res/layout/activity_main.xml" value="0.1793478260869565" />
+        <entry key="..\:/Users/masko/AndroidStudioProjects/FunnySoundsRepo/FunnySoundsApp/app/src/main/res/drawable/button_bg.xml" value="0.4453125" />
+        <entry key="..\:/Users/masko/AndroidStudioProjects/FunnySoundsRepo/FunnySoundsApp/app/src/main/res/drawable/edit_text_bg.xml" value="0.4453125" />
         <entry key="..\:/Users/masko/AndroidStudioProjects/FunnySoundsRepo/FunnySoundsApp/app/src/main/res/layout/activity_main.xml" value="0.16666666666666666" />
-        <entry key="..\:/Users/masko/AndroidStudioProjects/FunnySoundsRepo/FunnySoundsApp/app/src/main/res/layout/login_fragment.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/masko/AndroidStudioProjects/FunnySoundsRepo/FunnySoundsApp/app/src/main/res/layout/login_fragment.xml" value="0.264" />
+        <entry key="..\:/Users/masko/AndroidStudioProjects/FunnySoundsRepo/FunnySoundsApp/app/src/main/res/layout/logintab_fragment.xml" value="0.333786231884058" />
         <entry key="..\:/Users/masko/AndroidStudioProjects/FunnySoundsRepo/FunnySoundsApp/app/src/main/res/layout/main_fragment.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/masko/AndroidStudioProjects/FunnySoundsRepo/FunnySoundsApp/app/src/main/res/layout/main_screen.xml" value="0.16666666666666666" />
-        <entry key="..\:/Users/masko/AndroidStudioProjects/FunnySoundsRepo/FunnySoundsApp/app/src/main/res/layout/register_fragment.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/masko/AndroidStudioProjects/FunnySoundsRepo/FunnySoundsApp/app/src/main/res/layout/register_fragment.xml" value="0.264" />
+        <entry key="..\:/Users/masko/AndroidStudioProjects/FunnySoundsRepo/FunnySoundsApp/app/src/main/res/layout/registertab_fragment.xml" value="0.333786231884058" />
+        <entry key="..\:/Users/masko/AndroidStudioProjects/FunnySoundsRepo/FunnySoundsApp/app/src/main/res/layout/welcome_screen_fragment.xml" value="0.333786231884058" />
       </map>
     </option>
   </component>

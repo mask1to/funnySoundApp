@@ -11,6 +11,9 @@
         android:label="WelcomeFragment"
         tools:layout="@layout/welcome_screen_fragment">
 
+        <action
+            android:id="@+id/fromWelcomeFragmentToLoginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
 
     <fragment
@@ -19,6 +22,12 @@
         android:label="LoginFragment"
         tools:layout="@layout/login_fragment">
 
+        <action
+            android:id="@+id/fromLoginFragmentToMainFragment"
+            app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/fromLoginFragmentToRegisterFragment"
+            app:destination="@id/registerFragment" />
     </fragment>
 
     <fragment
@@ -27,6 +36,9 @@
         android:label="RegisterFragment"
         tools:layout="@layout/register_fragment">
 
+        <action
+            android:id="@+id/fromRegisterFragmentToLoginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
 
     <fragment

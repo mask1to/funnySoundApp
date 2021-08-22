@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">FunnySoundsApp</string>
+    <string name="continueString">Continue</string>
+    <string name="passwordHintField">Enter your password</string>
+    <string name="emailHintField">Enter your e-mail</string>
+    <string name="loginButton">Login</string>
+    <string name="signUpButton">Sign up</string>
+    <string name="noAccountTextView">Don\'t have an account?</string>
+    <string name="emailRegister">Enter your e-mail</string>
+    <string name="firstNameField">Enter your First Name</string>
+    <string name="lastNameField">Enter your Last Name</string>
+    <string name="passwordRegister">Enter your password</string>
+    <string name="passwordRepeatRegister">Repeat your password</string>
+    <string name="signUpRegister">Sign up</string>
 </resources>
