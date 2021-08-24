@@ -1,5 +1,7 @@
 package com.example.funnysoundsapp.fragmets
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -38,6 +40,9 @@ class LoginFragment : Fragment()
         loginButton = view.findViewById(R.id.loginButton)
         signUpButton = view.findViewById(R.id.signUpButton)
 
+        view.findViewById<View>(R.id.loginButton).setOnClickListener(View.OnClickListener {
+            showEmailDialog()
+        })
 
     }
 
@@ -52,4 +57,21 @@ class LoginFragment : Fragment()
         super.onStop()
         (activity as AppCompatActivity).supportActionBar?.show()
     }
+
+    private fun showEmailDialog()
+    {
+        AlertDialog.Builder(context)
+            .setTitle("Empty E-mail Address")
+            .setMessage("Please enter your e-mail address") // Specifying a listener allows you to take an action before dismissing the dialog.
+            .setMessage("HELLO")
+            // The dialog is automatically dismissed when a dialog button is clicked.
+            .setPositiveButton(android.R.string.ok,
+                DialogInterface.OnClickListener { dialog, which ->
+                    // Continue with delete operation
+                }) // A null listener allows the button to dismiss the dialog and take no further action.
+            .setNegativeButton(android.R.string.cancel, null)
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .show()
+    }
+
 }
