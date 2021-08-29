@@ -1,20 +1,15 @@
 package com.example.funnysoundsapp
 
-import androidx.appcompat.app.AppCompatActivity
+import android.app.Application
 import android.os.Bundle
-import android.util.Log
-import androidx.navigation.Navigation
 import com.parse.Parse
 import com.parse.ParseACL
-import com.parse.ParseObject
 
-class MainActivity : AppCompatActivity()
+class StartApplication : Application()
 {
-    //https://www.back4app.com/docs/android/login-android-tutorial
-    override fun onCreate(savedInstanceState: Bundle?)
+    fun onCreate(savedInstanceState: Bundle?)
     {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        super.onCreate()
         Parse.initialize(
             Parse.Configuration.Builder(this)
                 .applicationId(getString(R.string.back4app_app_id))
@@ -26,10 +21,5 @@ class MainActivity : AppCompatActivity()
         defaultACL.setPublicReadAccess(true)
         defaultACL.setPublicWriteAccess(true)
         ParseACL.setDefaultACL(defaultACL, true)
-    }
-
-    override fun onSupportNavigateUp(): Boolean
-    {
-        return Navigation.findNavController(this, R.id.nav_host_fragment).navigateUp()
     }
 }

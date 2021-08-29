@@ -1,28 +1,40 @@
 package com.example.funnysoundsapp.fragmets
 
 import android.app.AlertDialog
+import android.app.ProgressDialog
 import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.example.funnysoundsapp.R
+import com.parse.*
 
 class LoginFragment : Fragment()
 {
-    private lateinit var emailField : EditText
+    private lateinit var usernameField : EditText
     private lateinit var passwordField : EditText
     private lateinit var loginButton : Button
     private lateinit var signUpButton : Button
+    private var progressDialog: ProgressDialog? = null
+    var usernameBool = false
+    var passwordBool = false
+    var success = false
+    lateinit var query : ParseQuery<ParseObject>
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
         parentFragment?.activity?.actionBar?.hide()
+        progressDialog = ProgressDialog(this.context)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -35,14 +47,25 @@ class LoginFragment : Fragment()
     {
         super.onViewCreated(view, savedInstanceState)
 
-        emailField = view.findViewById(R.id.editTextEmail)
+        usernameField = view.findViewById(R.id.loginUsername)
         passwordField = view.findViewById(R.id.editTextPassword)
-        loginButton = view.findViewById(R.id.loginButton)
+        loginButton = view.findViewById(R.id.loginBtn)
         signUpButton = view.findViewById(R.id.signUpButton)
 
-        view.findViewById<View>(R.id.loginButton).setOnClickListener(View.OnClickListener {
-            showEmailDialog()
-        })
+        loginButton.setOnClickListener{
+            validateForm()
+            if(usernameBool && passwordBool)
+            {
+                login(usernameField.text.toString(), passwordField.text.toString())
+                val action = LoginFragmentDirections.fromLoginFragmentToMainFragment()
+                view.findNavController().navigate(action)
+            }
+        }
+
+        signUpButton.setOnClickListener {
+            val action = LoginFragmentDirections.fromLoginFragmentToRegisterFragment()
+            view.findNavController().navigate(action)
+        }
 
     }
 
@@ -58,20 +81,64 @@ class LoginFragment : Fragment()
         (activity as AppCompatActivity).supportActionBar?.show()
     }
 
-    private fun showEmailDialog()
+    private fun validateForm()
     {
-        AlertDialog.Builder(context)
-            .setTitle("Empty E-mail Address")
-            .setMessage("Please enter your e-mail address") // Specifying a listener allows you to take an action before dismissing the dialog.
-            .setMessage("HELLO")
-            // The dialog is automatically dismissed when a dialog button is clicked.
-            .setPositiveButton(android.R.string.ok,
-                DialogInterface.OnClickListener { dialog, which ->
-                    // Continue with delete operation
-                }) // A null listener allows the button to dismiss the dialog and take no further action.
-            .setNegativeButton(android.R.string.cancel, null)
-            .setIcon(android.R.drawable.ic_dialog_alert)
-            .show()
+        if(usernameField.text.isEmpty())
+        {
+            usernameField.error = "You did not enter any username"
+            usernameBool = false
+        }
+        else
+        {
+            usernameField.error = null
+            usernameBool = true
+        }
+
+        if(passwordField.text.isEmpty())
+        {
+            passwordField.error = "You did not enter any password"
+            passwordBool = false
+        }
+        else if(passwordField.text.length < 6)
+        {
+            passwordField.error = "The length of entered password has to be more than 5 characters"
+            passwordBool = false
+        }
+        else
+        {
+            passwordField.error = null
+            passwordBool = true
+        }
     }
+
+    fun login(username: String, password: String)
+    {
+        progressDialog?.show()
+        ParseUser.logInInBackground(username,password) { parseUser: ParseUser?, parseException: ParseException? ->
+            progressDialog?.dismiss()
+            if (parseUser != null) {
+                showAlert("Successful Login", "Welcome back " + username + " !")
+            } else {
+                ParseUser.logOut()
+                if (parseException != null) {
+                    parseException.message?.let { showToast(it) }
+                }
+            }
+        }
+    }
+
+    private fun showAlert(title: String, message: String)
+    {
+        val builder = AlertDialog.Builder(this.context)
+            .setTitle(title)
+            .setMessage(message)
+            .setPositiveButton("OK") { dialog, which ->
+                dialog.cancel()
+            }
+        val ok = builder.create()
+        ok.show()
+    }
+
+    private fun showToast(message : String) = Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
 
 }

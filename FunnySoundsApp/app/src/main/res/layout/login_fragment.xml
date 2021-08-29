@@ -7,11 +7,11 @@
     android:background="@color/mainBackground">
 
     <EditText
-        android:id="@+id/editTextEmail"
+        android:id="@+id/loginUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="@string/emailHintField"
+        android:hint="@string/usernameHintField"
         android:ellipsize="start"
         android:gravity="center"
         android:inputType="textPersonName"
@@ -44,7 +44,7 @@
         app:layout_constraintVertical_bias="0.383" />
 
     <Button
-        android:id="@+id/loginButton"
+        android:id="@+id/loginBtn"
         android:layout_width="108dp"
         android:layout_height="60dp"
         android:text="@string/loginButton"

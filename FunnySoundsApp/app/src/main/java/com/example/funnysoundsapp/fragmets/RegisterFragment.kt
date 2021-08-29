@@ -1,6 +1,7 @@
 package com.example.funnysoundsapp.fragmets
 
 import android.app.AlertDialog
+import android.app.ProgressDialog
 import android.os.Bundle
 import android.util.Patterns
 import android.view.LayoutInflater
@@ -11,26 +12,32 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.funnysoundsapp.R
 import android.content.DialogInterface
+import android.content.Intent
+import android.util.Log
 import android.widget.Button
+import android.widget.Toast
+import androidx.core.os.HandlerCompat.postDelayed
+import androidx.navigation.findNavController
+import com.parse.*
 
 
 class RegisterFragment : Fragment()
 {
-    private lateinit var theEmail : EditText
-    private lateinit var firstName : EditText
-    private lateinit var lastName : EditText
+    private lateinit var theUsername : EditText
     private lateinit var firstPassword : EditText
     private lateinit var secondPassword : EditText
     private lateinit var signUpButton : Button
+    private var progressDialog: ProgressDialog? = null
 
     var isEmailCorrect = false
     var passwordMatch = false
-    var passwordCorrect = false
+
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
         parentFragment?.activity?.actionBar?.hide()
+        progressDialog = ProgressDialog(this.context)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -43,17 +50,20 @@ class RegisterFragment : Fragment()
     {
         super.onViewCreated(view, savedInstanceState)
 
-        theEmail = view.findViewById(R.id.editTextEmailField)
-        firstName = view.findViewById(R.id.editTextFirstName)
-        lastName = view.findViewById(R.id.editTextLastName)
+        theUsername = view.findViewById(R.id.editTextUsername)
         firstPassword = view.findViewById(R.id.editTextPasswordRegister)
         secondPassword = view.findViewById(R.id.editTextPasswordRegister2)
         signUpButton = view.findViewById(R.id.signUpButtonRegister)
 
         view.findViewById<View>(R.id.signUpButtonRegister).setOnClickListener(View.OnClickListener {
             validateForm()
+            if(isEmailCorrect && passwordMatch)
+            {
+                signup(theUsername.text.toString(), firstPassword.text.toString())
+                val action = RegisterFragmentDirections.actionRegisterFragmentToLoginFragment()
+                view.findNavController().navigate(action)
+            }
         })
-
     }
 
     override fun onResume()
@@ -70,27 +80,15 @@ class RegisterFragment : Fragment()
 
     private fun validateForm()
     {
-        if(theEmail.text.isEmpty())
+        if(theUsername.text.isEmpty())
         {
-            theEmail.error = "You did not enter any e-mail address"
-        }
-        else if (!Patterns.EMAIL_ADDRESS.matcher(theEmail.text.toString()).matches())
-        {
-            theEmail.error = "You have entered wrong format of e-mail address"
+            theUsername.error = "You did not enter any username"
+            isEmailCorrect = false
         }
         else
         {
-            theEmail.error = null
-        }
-
-        if(firstName.text.isEmpty())
-        {
-            firstName.error = "You have to enter your First Name"
-        }
-
-        if(lastName.text.isEmpty())
-        {
-            lastName.error = "You have to enter your Last Name"
+            theUsername.error = null
+            isEmailCorrect = true
         }
 
         if(firstPassword.text.isEmpty() || secondPassword.text.isEmpty())
@@ -103,15 +101,51 @@ class RegisterFragment : Fragment()
             firstPassword.error = "The length of entered password has to be more than 5 characters"
             secondPassword.error = "The length of entered password has to be more than 5 characters"
         }
-        else if(firstPassword.text != secondPassword.text)
-        {
-            firstPassword.error = "Passwords do not match"
-        }
-        else
+
+        if(firstPassword.text.toString() == secondPassword.text.toString())
         {
             firstPassword.error = null
             secondPassword.error = null
+            passwordMatch = true
+        }
+        else
+        {
+            firstPassword.error = "Passwords do not match"
+            secondPassword.error = "Passwords do not match"
+            passwordMatch = false
         }
     }
+
+    fun signup(username: String, password: String)
+    {
+        progressDialog?.show()
+
+        val user = ParseUser()
+        user.setUsername(username);
+        user.setPassword(password);
+        user.signUpInBackground(SignUpCallback() {
+            progressDialog?.dismiss()
+            if (it == null) {
+                showAlert("Successful Sign Up!", "Welcome " + username + " !");
+            } else {
+                ParseUser.logOut();
+                it.message?.let { it1 -> showToast(it1) }
+            }
+        })
+    }
+
+    private fun showAlert(title: String, message: String)
+    {
+        val builder = AlertDialog.Builder(this.context)
+            .setTitle(title)
+            .setMessage(message)
+            .setPositiveButton("OK") { dialog, which ->
+                dialog.cancel()
+            }
+        val ok = builder.create()
+        ok.show()
+    }
+
+    private fun showToast(message : String) = Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
 
 }

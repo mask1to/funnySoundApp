@@ -35,9 +35,8 @@
         android:name="com.example.funnysoundsapp.fragmets.RegisterFragment"
         android:label="RegisterFragment"
         tools:layout="@layout/register_fragment">
-
         <action
-            android:id="@+id/fromRegisterFragmentToLoginFragment"
+            android:id="@+id/action_registerFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
 
