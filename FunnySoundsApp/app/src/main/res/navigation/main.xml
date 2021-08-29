@@ -45,7 +45,9 @@
         android:name="com.example.funnysoundsapp.fragmets.MainFragment"
         android:label="MainFragment"
         tools:layout="@layout/main_fragment">
-
+        <action
+            android:id="@+id/fromMainFragmentToWelcomeFragment"
+            app:destination="@id/welcomeFragment" />
     </fragment>
 
 </navigation>

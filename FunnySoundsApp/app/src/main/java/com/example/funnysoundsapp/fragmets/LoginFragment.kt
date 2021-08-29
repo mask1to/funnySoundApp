@@ -25,10 +25,9 @@ class LoginFragment : Fragment()
     private lateinit var loginButton : Button
     private lateinit var signUpButton : Button
     private var progressDialog: ProgressDialog? = null
-    var usernameBool = false
-    var passwordBool = false
+    private var usernameBool = false
+    private var passwordBool = false
     var success = false
-    lateinit var query : ParseQuery<ParseObject>
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -56,9 +55,16 @@ class LoginFragment : Fragment()
             validateForm()
             if(usernameBool && passwordBool)
             {
-                login(usernameField.text.toString(), passwordField.text.toString())
-                val action = LoginFragmentDirections.fromLoginFragmentToMainFragment()
-                view.findNavController().navigate(action)
+                if(success)
+                {
+                    login(usernameField.text.toString(), passwordField.text.toString())
+                    val action = LoginFragmentDirections.fromLoginFragmentToMainFragment()
+                    view.findNavController().navigate(action)
+                    showAlert("Successful Login", "Welcome back " + usernameField.text.toString() + " !")
+                    usernameField.text.clear()
+                    passwordField.text.clear()
+                }
+                
             }
         }
 
@@ -111,18 +117,20 @@ class LoginFragment : Fragment()
         }
     }
 
-    fun login(username: String, password: String)
-    {
+    private fun login(username: String, password: String) {
         progressDialog?.show()
         ParseUser.logInInBackground(username,password) { parseUser: ParseUser?, parseException: ParseException? ->
-            progressDialog?.dismiss()
-            if (parseUser != null) {
-                showAlert("Successful Login", "Welcome back " + username + " !")
-            } else {
+            if (parseUser != null)
+            {
+                success = true
+            }
+            else
+            {
                 ParseUser.logOut()
                 if (parseException != null) {
                     parseException.message?.let { showToast(it) }
                 }
+                success = false
             }
         }
     }
