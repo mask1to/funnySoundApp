@@ -12,11 +12,16 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.example.funnysoundsapp.R
 import com.parse.*
+import com.example.funnysoundsapp.MainActivity
+import kotlin.properties.Delegates
 
 class LoginFragment : Fragment()
 {
@@ -27,13 +32,17 @@ class LoginFragment : Fragment()
     private var progressDialog: ProgressDialog? = null
     private var usernameBool = false
     private var passwordBool = false
-    var success = false
+    private var isLoginDone = false
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
         parentFragment?.activity?.actionBar?.hide()
         progressDialog = ProgressDialog(this.context)
+        val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
+            //do nothing - just disabled back press
+        }
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -55,17 +64,15 @@ class LoginFragment : Fragment()
             validateForm()
             if(usernameBool && passwordBool)
             {
-                if(success)
-                {
-                    login(usernameField.text.toString(), passwordField.text.toString())
-                    val action = LoginFragmentDirections.fromLoginFragmentToMainFragment()
-                    view.findNavController().navigate(action)
-                    showAlert("Successful Login", "Welcome back " + usernameField.text.toString() + " !")
-                    usernameField.text.clear()
-                    passwordField.text.clear()
-                }
-                
+                Log.d("1", "here")
+                login(usernameField.text.toString(), passwordField.text.toString())
             }
+            else
+            {
+                val action = LoginFragmentDirections.fromLoginFragmentToWelcomeFragment()
+                view.findNavController().navigate(action)
+            }
+
         }
 
         signUpButton.setOnClickListener {
@@ -86,6 +93,7 @@ class LoginFragment : Fragment()
         super.onStop()
         (activity as AppCompatActivity).supportActionBar?.show()
     }
+
 
     private fun validateForm()
     {
@@ -117,20 +125,25 @@ class LoginFragment : Fragment()
         }
     }
 
-    private fun login(username: String, password: String) {
+    private fun login(username: String, password: String){
         progressDialog?.show()
         ParseUser.logInInBackground(username,password) { parseUser: ParseUser?, parseException: ParseException? ->
-            if (parseUser != null)
+            progressDialog?.dismiss()
+            if (parseUser != null && parseException == null)
             {
-                success = true
+                val action = LoginFragmentDirections.fromLoginFragmentToMainFragment()
+                findNavController().navigate(action)
+                showAlert("Successful Login", "Welcome back " + username + " !")
             }
             else
             {
                 ParseUser.logOut()
-                if (parseException != null) {
+                if (parseException != null)
+                {
                     parseException.message?.let { showToast(it) }
+                    usernameField.text.clear()
+                    passwordField.text.clear()
                 }
-                success = false
             }
         }
     }

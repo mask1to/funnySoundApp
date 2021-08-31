@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.view.animation.Animation
 import android.widget.Button
 import android.widget.ImageView
+import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
@@ -24,6 +25,9 @@ class WelcomeScreenFragment : Fragment()
     {
         super.onCreate(savedInstanceState)
         parentFragment?.activity?.actionBar?.hide()
+        val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
+            //do nothing - just disabled back press
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

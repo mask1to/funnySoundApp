@@ -28,6 +28,9 @@
         <action
             android:id="@+id/fromLoginFragmentToRegisterFragment"
             app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/fromLoginFragmentToWelcomeFragment"
+            app:destination="@id/welcomeFragment" />
     </fragment>
 
     <fragment

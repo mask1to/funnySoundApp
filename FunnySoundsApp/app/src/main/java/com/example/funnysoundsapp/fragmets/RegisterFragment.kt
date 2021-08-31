@@ -16,6 +16,7 @@ import android.content.Intent
 import android.util.Log
 import android.widget.Button
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.core.os.HandlerCompat.postDelayed
 import androidx.navigation.findNavController
 import com.parse.*
@@ -27,17 +28,20 @@ class RegisterFragment : Fragment()
     private lateinit var firstPassword : EditText
     private lateinit var secondPassword : EditText
     private lateinit var signUpButton : Button
+    private lateinit var backButton : Button
     private var progressDialog: ProgressDialog? = null
 
     var isEmailCorrect = false
     var passwordMatch = false
-
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
         parentFragment?.activity?.actionBar?.hide()
         progressDialog = ProgressDialog(this.context)
+        val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
+            //do nothing - just disabled back press
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -54,6 +58,7 @@ class RegisterFragment : Fragment()
         firstPassword = view.findViewById(R.id.editTextPasswordRegister)
         secondPassword = view.findViewById(R.id.editTextPasswordRegister2)
         signUpButton = view.findViewById(R.id.signUpButtonRegister)
+        backButton = view.findViewById(R.id.backButton)
 
         view.findViewById<View>(R.id.signUpButtonRegister).setOnClickListener(View.OnClickListener {
             validateForm()
@@ -64,6 +69,11 @@ class RegisterFragment : Fragment()
                 view.findNavController().navigate(action)
             }
         })
+
+        backButton.setOnClickListener {
+            val action = RegisterFragmentDirections.actionRegisterFragmentToLoginFragment()
+            view.findNavController().navigate(action)
+        }
     }
 
     override fun onResume()
