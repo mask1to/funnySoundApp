@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
@@ -31,6 +32,9 @@ class MainFragment : Fragment()
         super.onCreate(savedInstanceState)
         parentFragment?.activity?.actionBar?.hide()
         progressDialog = ProgressDialog(this.context)
+        val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
+            //do nothing - just disabled back press
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -63,6 +67,11 @@ class MainFragment : Fragment()
                 }
 
             }
+        }
+
+        firstBtn.setOnClickListener {
+            val action = MainFragmentDirections.fromMainFragmentToWatchFragment1()
+            view.findNavController().navigate(action)
         }
     }
 

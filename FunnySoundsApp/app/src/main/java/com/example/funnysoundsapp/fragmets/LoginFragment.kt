@@ -42,7 +42,6 @@ class LoginFragment : Fragment()
         val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
             //do nothing - just disabled back press
         }
-
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

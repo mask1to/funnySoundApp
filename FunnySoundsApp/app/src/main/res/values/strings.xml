@@ -16,4 +16,6 @@
     <string name="back4app_app_id">ZV5v3Kto8OJ42aGKW9wA6LbCJI7S7SDAFhK5RBHU</string>
     <string name="back4app_client_key">a3LZCq9yxw4Zy03Snu3ypdUKw0bkMyDO17F4gy9I</string>
     <string name="go_back">Go back</string>
+    <string name="mediaPlayerPlay">Play</string>
+    <string name="mediaPlayerPause">Pause</string>
 </resources>
